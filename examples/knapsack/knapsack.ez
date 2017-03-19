@@ -1,0 +1,211 @@
+/* -------------------- 0-1 Combinatorial Knapsack Problem -------------------------------
+
+genome = population
+
+
+
+
+FLOWCHART
+
+-> populate random items
+-> populate random individuals
+-> calculate individuals fitness (loop until chromosome is modified to fit in knapsack)
+REPEAT
+    -> get elite individuals
+    -> roulette wheel selection
+    -> iterative single-point crossover
+    -> random single-point mutation of individuals
+    -> insertion of elite individuals
+UNTIL - a termination condition (TIME, GENERATION, MIN FITNESS) is met
+-> print best individual
+
+----------------------------------------------------------------------------------------- */
+
+\User declarations:
+    #include <vector>
+
+    // scenario settings
+    #define MAX_ITEMS 10    // maximum chromosome size
+    #define MAX_KNAPSACK_WEIGHT 10
+    #define CROSSOVER_PROB 0.8
+    #define MUTATION_PROB 0.1
+
+    // MIN/MAX bounds for item creation
+    #define MIN_VALUE_PER_ITEM 8
+    #define MAX_VALUE_PER_ITEM 20
+    #define MIN_WEIGHT_PER_ITEM 1
+    #define MAX_WEIGHT_PER_ITEM 5
+
+
+\end
+
+\User functions:
+
+\end
+
+
+
+\User classes:
+    Item{
+        int value;
+        int weight;
+    }
+    GenomeClass{
+        int x[MAX_ITEMS];
+        Item *itemList[MAX_ITEMS];
+    }
+
+
+\end
+
+\Before everything else function:
+    std::cout << "Before everything else function called..." << std::endl;
+\end
+
+\After everything else function:
+\end
+
+\GenomeClass::initializer:
+    std::cout << "initializer called..." << std::endl;
+    // Populate list of items
+    for (int i = 0; i < MAX_ITEMS; ++i) {
+        Item *item = new Item;
+        item->value = random(MIN_VALUE_PER_ITEM, MAX_VALUE_PER_ITEM);
+        item->weight = random(MIN_WEIGHT_PER_ITEM, MAX_WEIGHT_PER_ITEM);
+        Genome.itemList[i] = item;
+    }
+    // Populate genome
+    for (int i = 0; i < MAX_ITEMS; i++) {
+        Genome.x[i] = random(0,1);
+    }
+\end
+
+
+\GenomeClass::crossover:
+  for (int i=0; i<MAX_ITEMS; i++)
+  {
+    float alpha = (float)random(0.,1.);     // barycentric crossover
+     child.x[i] = alpha*parent1.x[i] + (1.-alpha)*parent2.x[i];
+  }
+\end
+
+\GenomeClass::mutator:      // return number of mutations
+    int nbMutation = 0;
+    for (int i = 0; i < MAX_ITEMS; i++){
+        if (tossCoin(MUTATION_PROB)){
+            Genome.x[i] = Genome.x[i] = (Genome.x[i] + 1) % 2;
+            nbMutation++;
+        }
+    }
+    return nbMutation;
+\end
+
+
+
+\GenomeClass::evaluator:    // evaluate fitness
+    int fitness;
+    double totalValue, totalWeight;
+    bool overweightFlag = false;
+    std::vector<int> temp;
+
+    do{ // while knapsack NOT overweight
+        totalValue = totalWeight = fitness = 0;
+        overweightFlag = false;
+        for (int i = 0; i < MAX_ITEMS; ++i) {
+            // if item selected in individual
+            if(Genome.x[i] == 1){
+                // add value and weight to total
+                totalValue += Genome.itemList[i]->value;
+                totalWeight += Genome.itemList[i]->weight;
+                temp.push_back(i);
+                if(totalWeight > MAX_KNAPSACK_WEIGHT){
+                    overweightFlag = true;
+                    break;
+                }
+            }
+        }
+        // if knapsack overweight, remove one item from chromosome at random
+        if (overweightFlag){
+            // randomize chromosome
+            std::vector<int> availableIndexes;
+            int selectedElement;
+            // find all elements in chromosome where item is '1'
+            for (int j = 0; j < MAX_ITEMS; ++j) {
+                if (Genome.x[j] == 1){
+                    availableIndexes.push_back(j);
+                }
+            }
+            // get a random element from temp vector
+            selectedElement = temp.at(random(0, (availableIndexes.size()-1)));
+            // remove item (element = 0)
+            Genome.x[selectedElement] = 0;
+
+            // unallocated memory for temp vector
+            std::vector<int>().swap(availableIndexes);
+        }else{
+            fitness = totalValue;
+
+        // log best fitness as a struct
+        /*
+            if(bestChromLog.fitness < fitness){
+                bestChromLog.chrom = x;
+                bestChromLog.index = count;
+                bestChromLog.fitness = fitness;
+                bestChromLog.maxValue = totalValue;
+                bestChromLog.maxWeight = totalWeight;
+                bestChromLog.itemList = temp;
+            }
+        */
+            Genome.fitness = fitness;
+            temp.clear();
+        }
+    }while(overweightFlag);
+
+    std::vector<int>().swap(temp); // clear allocated memory
+    // std::cout << "fitness --> " << fitness;
+    // std::cout << totalWeight << " <-- weight" << std::endl;
+    return fitness;
+\end
+
+
+
+\GenomeClass::display:
+\end
+
+
+
+
+\Default run parameters:
+
+  Number of generations : 100   	// NB_GEN
+  Time limit: 0 			    // In seconds, 0 to deactivate
+  Population size : 10			// number of chromosomes
+  Offspring size : 10          // 40%
+  Mutation probability : 0.1       // MUT_PROB
+  Crossover probability : 0.8      // XOVER_PROB
+  Evaluator goal : maximise      // Maximise
+  Selection operator: Roulette
+  Surviving parents: 1          //percentage or absolute
+  Surviving offspring: 100%
+  Reduce parents operator: Tournament 2
+  Reduce offspring operator: Tournament 2
+  Final reduce operator: Tournament 2
+
+  Elitism: Strong			//Weak or Strong
+  Elite: 1
+  Print stats: true				//Default: 1
+  Generate csv stats file: false
+  Generate gnuplot script: false
+  Generate R script: false
+  Plot stats: false				//Default: 0
+
+  Remote island model: false
+  IP file: ip.txt 			// File containing all the remote island's IP
+  Server port : 2929
+  Migration probability: 0.3
+
+  Save population: false
+  Start from file: false
+
+\end
+

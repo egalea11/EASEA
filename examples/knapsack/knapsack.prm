@@ -8,15 +8,15 @@
 # --seed=0   # -S : Random number seed. It is possible to give a specific seed.
 
 ######    Evolution Engine    ######
---popSize=10 # -P : Population Size
+--popSize=20 # -P : Population Size
 --nbOffspring=10 # -O : Nb of offspring (percentage or absolute)
 
 ######	  Stopping Criterions    #####
---nbGen=100 #Nb of generations
+--nbGen=300 #Nb of generations
 --timeLimit=0 # Time Limit: desactivate with (0) (in Seconds)
 
 ######    Evolution Engine / Replacement    ######
---elite=1  # Nb of elite parents (absolute)
+--elite=2  # Nb of elite parents (absolute)
 --eliteType=1 # Strong (1) or weak (0) elitism (set elite to 0 for none)
 --survivingParents=1.000000 # Nb of surviving parents (percentage or absolute)
 --survivingOffspring=1.000000  # Nb of surviving offspring (percentage or absolute)
@@ -31,15 +31,15 @@
 
 #####	Stats Ouput 	#####
 --printStats=1 #print Stats to screen
---plotStats=0 #plot Stats
+--plotStats=1 #plot Stats
 --printInitialPopulation=0 #Print initial population
 --printFinalPopulation=0 #Print final population
---generateCSV=0
---generatePlotScript=0
+--generateCSV=1
+--generatePlotScript=1
 --generateRScript=0
 
 #### Population save	####
---savePopulation=0 #save population to knapsack.pop file
+--savePopulation=1 #save population to knapsack.pop file
 --startFromFile=0 #start optimisation from knapsack.pop file
 
 #### Remote Island Model ####

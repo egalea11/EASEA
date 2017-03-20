@@ -2,9 +2,6 @@
 
 genome = population
 
-
-
-
 FLOWCHART
 
 -> populate random items
@@ -19,14 +16,26 @@ REPEAT
 UNTIL - a termination condition (TIME, GENERATION, MIN FITNESS) is met
 -> print best individual
 
+
+The fitness function (evaluation) not only does it calculate fitness of individuals,
+but makes the individuals eligible if the particular individual would result in
+the knapsack being overweight.
+
+Individuals are modified such as to accommodate the knapsack weight limit by
+removing an item one by one from the individual, and checking for fitness each time.
+
+This results in the fitness function having a time complexity of TODO calculate time complexity
+however, only the first round is the most demanding since the evolution functions modify
+(nearly) each individual only a bit.
+
 ----------------------------------------------------------------------------------------- */
 
 \User declarations:
     #include <vector>
 
     // scenario settings
-    #define MAX_ITEMS 10    // maximum chromosome size
-    #define MAX_KNAPSACK_WEIGHT 10
+    #define MAX_ITEMS 5000               // maximum chromosome size
+    #define MAX_KNAPSACK_WEIGHT 100      //
     #define CROSSOVER_PROB 0.8
     #define MUTATION_PROB 0.1
 
@@ -93,7 +102,7 @@ UNTIL - a termination condition (TIME, GENERATION, MIN FITNESS) is met
     int nbMutation = 0;
     for (int i = 0; i < MAX_ITEMS; i++){
         if (tossCoin(MUTATION_PROB)){
-            Genome.x[i] = Genome.x[i] = (Genome.x[i] + 1) % 2;
+            Genome.x[i] = (Genome.x[i] + 1) % 2;
             nbMutation++;
         }
     }
@@ -107,6 +116,8 @@ UNTIL - a termination condition (TIME, GENERATION, MIN FITNESS) is met
     double totalValue, totalWeight;
     bool overweightFlag = false;
     std::vector<int> temp;
+    int selectedElement;
+    int count;
 
     do{ // while knapsack NOT overweight
         totalValue = totalWeight = fitness = 0;
@@ -128,20 +139,19 @@ UNTIL - a termination condition (TIME, GENERATION, MIN FITNESS) is met
         if (overweightFlag){
             // randomize chromosome
             std::vector<int> availableIndexes;
-            int selectedElement;
+            count = 0;
+            selectedElement = 0;
             // find all elements in chromosome where item is '1'
             for (int j = 0; j < MAX_ITEMS; ++j) {
                 if (Genome.x[j] == 1){
                     availableIndexes.push_back(j);
+                    count++;
                 }
             }
-            // get a random element from temp vector
-            selectedElement = temp.at(random(0, (availableIndexes.size()-1)));
-            // remove item (element = 0)
+            // get a random element from availableIndexes vector
+            selectedElement = availableIndexes.at(random(0, count));
             Genome.x[selectedElement] = 0;
-
-            // unallocated memory for temp vector
-            std::vector<int>().swap(availableIndexes);
+            std::vector<int>().swap(availableIndexes);  // unallocated memory for temp vector
         }else{
             fitness = totalValue;
 
@@ -177,9 +187,9 @@ UNTIL - a termination condition (TIME, GENERATION, MIN FITNESS) is met
 
 \Default run parameters:
 
-  Number of generations : 100   	// NB_GEN
+  Number of generations : 300   	// NB_GEN
   Time limit: 0 			    // In seconds, 0 to deactivate
-  Population size : 10			// number of chromosomes
+  Population size : 20			// number of chromosomes
   Offspring size : 10          // 40%
   Mutation probability : 0.1       // MUT_PROB
   Crossover probability : 0.8      // XOVER_PROB
@@ -192,19 +202,19 @@ UNTIL - a termination condition (TIME, GENERATION, MIN FITNESS) is met
   Final reduce operator: Tournament 2
 
   Elitism: Strong			//Weak or Strong
-  Elite: 1
+  Elite: 2
   Print stats: true				//Default: 1
-  Generate csv stats file: false
-  Generate gnuplot script: false
+  Generate csv stats file: true
+  Generate gnuplot script: true
   Generate R script: false
-  Plot stats: false				//Default: 0
+  Plot stats: true				//Default: 0
 
   Remote island model: false
   IP file: ip.txt 			// File containing all the remote island's IP
   Server port : 2929
   Migration probability: 0.3
 
-  Save population: false
+  Save population: true
   Start from file: false
 
 \end

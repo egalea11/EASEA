@@ -22,13 +22,13 @@ extern CEvolutionaryAlgorithm* EA;
 #define STD_TPL
 
 // User declarations
-#line 24 "./knapsack.ez"
+#line 33 "./knapsack.ez"
 
     #include <vector>
 
     // scenario settings
-    #define MAX_ITEMS 10    // maximum chromosome size
-    #define MAX_KNAPSACK_WEIGHT 10
+    #define MAX_ITEMS 5000               // maximum chromosome size
+    #define MAX_KNAPSACK_WEIGHT 100      //
     #define CROSSOVER_PROB 0.8
     #define MUTATION_PROB 0.1
 
@@ -45,21 +45,21 @@ extern CEvolutionaryAlgorithm* EA;
 
 // User functions
 
-#line 43 "./knapsack.ez"
+#line 52 "./knapsack.ez"
 
 
 
 
 // Initialisation function
 void EASEAInitFunction(int argc, char *argv[]){
-#line 61 "./knapsack.ez"
+#line 70 "./knapsack.ez"
 
     std::cout << "Before everything else function called..." << std::endl;
 }
 
 // Finalization function
 void EASEAFinalization(CPopulation* population){
-#line 65 "./knapsack.ez"
+#line 74 "./knapsack.ez"
 
 }
 
@@ -84,7 +84,7 @@ void knapsackFinal(CPopulation* pop){
 }
 
 void EASEABeginningGenerationFunction(CEvolutionaryAlgorithm* evolutionaryAlgorithm){
-	#line 213 "./knapsack.ez"
+	#line 223 "./knapsack.ez"
 
 // No at beginning of generation function.
 
@@ -106,7 +106,7 @@ void EASEAGenerationFunctionBeforeReplacement(CEvolutionaryAlgorithm* evolutiona
 IndividualImpl::IndividualImpl() : CIndividual() {
    
   // Genome Initialiser
-#line 68 "./knapsack.ez"
+#line 77 "./knapsack.ez"
 
     std::cout << "initializer called..." << std::endl;
     // Populate list of items
@@ -131,7 +131,7 @@ CIndividual* IndividualImpl::clone(){
 
 IndividualImpl::~IndividualImpl(){
   // Destructing pointers
-    for(int EASEA_Ndx=0; EASEA_Ndx<10; EASEA_Ndx++)
+    for(int EASEA_Ndx=0; EASEA_Ndx<5000; EASEA_Ndx++)
       if(itemList[EASEA_Ndx]) delete itemList[EASEA_Ndx];
 
 }
@@ -142,12 +142,14 @@ float IndividualImpl::evaluate(){
     return fitness;
   else{
     valid = true;
-    #line 105 "./knapsack.ez"
+    #line 114 "./knapsack.ez"
     // evaluate fitness
     int fitness;
     double totalValue, totalWeight;
     bool overweightFlag = false;
     std::vector<int> temp;
+    int selectedElement;
+    int count;
 
     do{ // while knapsack NOT overweight
         totalValue = totalWeight = fitness = 0;
@@ -169,20 +171,19 @@ float IndividualImpl::evaluate(){
         if (overweightFlag){
             // randomize chromosome
             std::vector<int> availableIndexes;
-            int selectedElement;
+            count = 0;
+            selectedElement = 0;
             // find all elements in chromosome where item is '1'
             for (int j = 0; j < MAX_ITEMS; ++j) {
                 if ((*this).x[j] == 1){
                     availableIndexes.push_back(j);
+                    count++;
                 }
             }
-            // get a random element from temp vector
-            selectedElement = temp.at(globalRandomGenerator->random(0, (availableIndexes.size()-1)));
-            // remove item (element = 0)
+            // get a random element from availableIndexes vector
+            selectedElement = availableIndexes.at(globalRandomGenerator->random(0, count));
             (*this).x[selectedElement] = 0;
-
-            // unallocated memory for temp vector
-            std::vector<int>().swap(availableIndexes);
+            std::vector<int>().swap(availableIndexes);  // unallocated memory for temp vector
         }else{
             fitness = totalValue;
 
@@ -203,8 +204,8 @@ float IndividualImpl::evaluate(){
     }while(overweightFlag);
 
     std::vector<int>().swap(temp); // clear allocated memory
-    std::cout << "fitness --> " << fitness;
-    std::cout << totalWeight << " <-- weight" << std::endl;
+    // std::cout << "fitness --> " << fitness;
+    // std::cout << totalWeight << " <-- weight" << std::endl;
     return fitness =  fitness;
 
   }
@@ -219,7 +220,7 @@ void IndividualImpl::boundChecking(){
 string IndividualImpl::serialize(){
     ostringstream EASEA_Line(ios_base::app);
     // Memberwise serialization
-	for(int EASEA_Ndx=0; EASEA_Ndx<10; EASEA_Ndx++){
+	for(int EASEA_Ndx=0; EASEA_Ndx<5000; EASEA_Ndx++){
 		if(this->itemList[EASEA_Ndx] != NULL){
 			EASEA_Line << "\a ";
 			EASEA_Line << this->itemList[EASEA_Ndx]->serializer() << " ";
@@ -227,7 +228,7 @@ string IndividualImpl::serialize(){
 		else
 			EASEA_Line << "NULL" << " ";
 }
-	for(int EASEA_Ndx=0; EASEA_Ndx<10; EASEA_Ndx++)
+	for(int EASEA_Ndx=0; EASEA_Ndx<5000; EASEA_Ndx++)
 		EASEA_Line << this->x[EASEA_Ndx] <<" ";
 
     EASEA_Line << this->fitness;
@@ -239,13 +240,13 @@ void IndividualImpl::deserialize(string Line){
     string line;
     // Memberwise deserialization
 	EASEA_Line >> line;
-	for(int EASEA_Ndx=0; EASEA_Ndx<10; EASEA_Ndx++){
+	for(int EASEA_Ndx=0; EASEA_Ndx<5000; EASEA_Ndx++){
 		if(strcmp(line.c_str(),"NULL")==0)
 			this->itemList[EASEA_Ndx] = NULL;
 		else{
 			this->itemList[EASEA_Ndx] = new Item;
 			this->itemList[EASEA_Ndx]->deserializer(&EASEA_Line);
-		}	}	for(int EASEA_Ndx=0; EASEA_Ndx<10; EASEA_Ndx++)
+		}	}	for(int EASEA_Ndx=0; EASEA_Ndx<5000; EASEA_Ndx++)
 		EASEA_Line >> this->x[EASEA_Ndx];
 
     EASEA_Line >> this->fitness;
@@ -258,10 +259,10 @@ IndividualImpl::IndividualImpl(const IndividualImpl& genome){
   // ********************
   // Problem specific part
   // Memberwise copy
-    for(int EASEA_Ndx=0; EASEA_Ndx<10; EASEA_Ndx++)
+    for(int EASEA_Ndx=0; EASEA_Ndx<5000; EASEA_Ndx++)
       if(genome.itemList[EASEA_Ndx]) itemList[EASEA_Ndx] = new Item(*(genome.itemList[EASEA_Ndx]));
       else itemList[EASEA_Ndx] = NULL;
-    {for(int EASEA_Ndx=0; EASEA_Ndx<10; EASEA_Ndx++)
+    {for(int EASEA_Ndx=0; EASEA_Ndx<5000; EASEA_Ndx++)
        x[EASEA_Ndx]=genome.x[EASEA_Ndx];}
 
 
@@ -288,7 +289,7 @@ CIndividual* IndividualImpl::crossover(CIndividual** ps){
 
 	// ********************
 	// Problem specific part
-  	#line 84 "./knapsack.ez"
+  	#line 93 "./knapsack.ez"
 
   for (int i=0; i<MAX_ITEMS; i++)
   {
@@ -329,12 +330,12 @@ unsigned IndividualImpl::mutate( float pMutationPerGene ){
 
   // ********************
   // Problem specific part
-  #line 92 "./knapsack.ez"
+  #line 101 "./knapsack.ez"
       // return number of mutations
     int nbMutation = 0;
     for (int i = 0; i < MAX_ITEMS; i++){
         if (globalRandomGenerator->tossCoin(MUTATION_PROB)){
-            (*this).x[i] = (*this).x[i] = ((*this).x[i] + 1) % 2;
+            (*this).x[i] = ((*this).x[i] + 1) % 2;
             nbMutation++;
         }
     }
@@ -345,7 +346,7 @@ unsigned IndividualImpl::mutate( float pMutationPerGene ){
 void ParametersImpl::setDefaultParameters(int argc, char** argv){
 
 	this->minimizing = false;
-	this->nbGen = setVariable("nbGen",(int)100);
+	this->nbGen = setVariable("nbGen",(int)300);
 
 	seed = setVariable("seed",(int)time(0));
 	globalRandomGenerator = new CRandomGenerator(seed);
@@ -364,14 +365,14 @@ void ParametersImpl::setDefaultParameters(int argc, char** argv){
 	pMutation = 0.100000;
 	pMutationPerGene = 0.05;
 
-	parentPopulationSize = setVariable("popSize",(int)10);
+	parentPopulationSize = setVariable("popSize",(int)20);
 	offspringPopulationSize = setVariable("nbOffspring",(int)10);
 
 
 	parentReductionSize = setReductionSizes(parentPopulationSize, setVariable("survivingParents",(float)1.000000));
 	offspringReductionSize = setReductionSizes(offspringPopulationSize, setVariable("survivingOffspring",(float)1.000000));
 
-	this->elitSize = setVariable("elite",(int)1);
+	this->elitSize = setVariable("elite",(int)2);
 	this->strongElitism = setVariable("eliteType",(int)1);
 
 	if((this->parentReductionSize + this->offspringReductionSize) < this->parentPopulationSize){
@@ -404,20 +405,20 @@ void ParametersImpl::setDefaultParameters(int argc, char** argv){
 	if(parentReductionSize<parentPopulationSize) parentReduction = true;
 	else parentReduction = false;
 
-	generationalCriterion = new CGenerationalCriterion(setVariable("nbGen",(int)100));
+	generationalCriterion = new CGenerationalCriterion(setVariable("nbGen",(int)300));
 	controlCStopingCriterion = new CControlCStopingCriterion();
 	timeCriterion = new CTimeCriterion(setVariable("timeLimit",0));
 
 	this->optimise = 0;
 
 	this->printStats = setVariable("printStats",1);
-	this->generateCSVFile = setVariable("generateCSVFile",0);
-	this->generatePlotScript = setVariable("generatePlotScript",0);
+	this->generateCSVFile = setVariable("generateCSVFile",1);
+	this->generatePlotScript = setVariable("generatePlotScript",1);
 	this->generateRScript = setVariable("generateRScript",0);
-	this->plotStats = setVariable("plotStats",0);
+	this->plotStats = setVariable("plotStats",1);
 	this->printInitialPopulation = setVariable("printInitialPopulation",0);
 	this->printFinalPopulation = setVariable("printFinalPopulation",0);
-	this->savePopulation = setVariable("savePopulation",0);
+	this->savePopulation = setVariable("savePopulation",1);
 	this->startFromFile = setVariable("startFromFile",0);
 
 	this->outputFilename = (char*)"knapsack";
@@ -436,7 +437,7 @@ CEvolutionaryAlgorithm* ParametersImpl::newEvolutionaryAlgorithm(){
 
 	pEZ_MUT_PROB = &pMutationPerGene;
 	pEZ_XOVER_PROB = &pCrossover;
-	//EZ_NB_GEN = (unsigned*)setVariable("nbGen",100);
+	//EZ_NB_GEN = (unsigned*)setVariable("nbGen",300);
 	EZ_current_generation=0;
   EZ_POP_SIZE = parentPopulationSize;
   OFFSPRING_SIZE = offspringPopulationSize;

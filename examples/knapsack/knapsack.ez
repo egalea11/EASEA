@@ -33,17 +33,18 @@ however, only the first round is the most demanding since the evolution function
 \User declarations:
     #include <vector>
 
-    // scenario settings
-    #define MAX_ITEMS 5000               // maximum chromosome size
-    #define MAX_KNAPSACK_WEIGHT 100      //
+    #define MAX_ITEMS 1000
+    #define MAX_KNAPSACK_WEIGHT 20
+
     #define CROSSOVER_PROB 0.8
     #define MUTATION_PROB 0.1
 
     // MIN/MAX bounds for item creation
-    #define MIN_VALUE_PER_ITEM 8
-    #define MAX_VALUE_PER_ITEM 20
+    #define MIN_VALUE_PER_ITEM 10
+    #define MAX_VALUE_PER_ITEM 100
     #define MIN_WEIGHT_PER_ITEM 1
-    #define MAX_WEIGHT_PER_ITEM 5
+    #define MAX_WEIGHT_PER_ITEM 10
+
 
 
 \end
@@ -68,14 +69,13 @@ however, only the first round is the most demanding since the evolution function
 \end
 
 \Before everything else function:
-    std::cout << "Before everything else function called..." << std::endl;
 \end
 
 \After everything else function:
+
 \end
 
 \GenomeClass::initializer:
-    std::cout << "initializer called..." << std::endl;
     // Populate list of items
     for (int i = 0; i < MAX_ITEMS; ++i) {
         Item *item = new Item;
@@ -171,9 +171,8 @@ however, only the first round is the most demanding since the evolution function
         }
     }while(overweightFlag);
 
-    std::vector<int>().swap(temp); // clear allocated memory
-    // std::cout << "fitness --> " << fitness;
-    // std::cout << totalWeight << " <-- weight" << std::endl;
+    //    std::vector<int>().swap(temp); // clear allocated memory
+    //    std::cout << "fitness --> " << fitness << "\t" << totalWeight << " <-- weight" << std::endl;
     return fitness;
 \end
 
@@ -183,18 +182,16 @@ however, only the first round is the most demanding since the evolution function
 \end
 
 
-
-
 \Default run parameters:
 
-  Number of generations : 300   	// NB_GEN
-  Time limit: 0 			    // In seconds, 0 to deactivate
-  Population size : 20			// number of chromosomes
-  Offspring size : 10          // 40%
+  Number of generations : 200   	// NB_GEN
+  Time limit: 10 			    // In seconds, 0 to deactivate
+  Population size : 50			// number of chromosomes
+  Offspring size : 25          // 40%
   Mutation probability : 0.1       // MUT_PROB
   Crossover probability : 0.8      // XOVER_PROB
   Evaluator goal : maximise      // Maximise
-  Selection operator: Roulette
+  Selection operator: Tournament
   Surviving parents: 1          //percentage or absolute
   Surviving offspring: 100%
   Reduce parents operator: Tournament 2
@@ -206,13 +203,12 @@ however, only the first round is the most demanding since the evolution function
   Print stats: true				//Default: 1
   Generate csv stats file: true
   Generate gnuplot script: true
-  Generate R script: false
   Plot stats: true				//Default: 0
 
-  Remote island model: false
+  Remote island model: true
   IP file: ip.txt 			// File containing all the remote island's IP
   Server port : 2929
-  Migration probability: 0.3
+  Migration probability: 1
 
   Save population: true
   Start from file: false

@@ -79,8 +79,8 @@ class IndividualImpl : public CIndividual {
 public: // in knapsack the genome is public (for user functions,...)
 	// Class members
   	// Class members 
-  Item* itemList[5000];
-  int x[5000];
+  Item* itemList[1000];
+  int x[1000];
 
 
 public:

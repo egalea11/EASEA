@@ -26,17 +26,18 @@ extern CEvolutionaryAlgorithm* EA;
 
     #include <vector>
 
-    // scenario settings
-    #define MAX_ITEMS 5000               // maximum chromosome size
-    #define MAX_KNAPSACK_WEIGHT 100      //
+    #define MAX_ITEMS 1000
+    #define MAX_KNAPSACK_WEIGHT 20
+
     #define CROSSOVER_PROB 0.8
     #define MUTATION_PROB 0.1
 
     // MIN/MAX bounds for item creation
-    #define MIN_VALUE_PER_ITEM 8
-    #define MAX_VALUE_PER_ITEM 20
+    #define MIN_VALUE_PER_ITEM 10
+    #define MAX_VALUE_PER_ITEM 100
     #define MIN_WEIGHT_PER_ITEM 1
-    #define MAX_WEIGHT_PER_ITEM 5
+    #define MAX_WEIGHT_PER_ITEM 10
+
 
 
 
@@ -45,21 +46,21 @@ extern CEvolutionaryAlgorithm* EA;
 
 // User functions
 
-#line 52 "./knapsack.ez"
+#line 53 "./knapsack.ez"
 
 
 
 
 // Initialisation function
 void EASEAInitFunction(int argc, char *argv[]){
-#line 70 "./knapsack.ez"
+#line 71 "./knapsack.ez"
 
-    std::cout << "Before everything else function called..." << std::endl;
 }
 
 // Finalization function
 void EASEAFinalization(CPopulation* population){
 #line 74 "./knapsack.ez"
+
 
 }
 
@@ -84,7 +85,7 @@ void knapsackFinal(CPopulation* pop){
 }
 
 void EASEABeginningGenerationFunction(CEvolutionaryAlgorithm* evolutionaryAlgorithm){
-	#line 223 "./knapsack.ez"
+	#line 219 "./knapsack.ez"
 
 // No at beginning of generation function.
 
@@ -106,9 +107,8 @@ void EASEAGenerationFunctionBeforeReplacement(CEvolutionaryAlgorithm* evolutiona
 IndividualImpl::IndividualImpl() : CIndividual() {
    
   // Genome Initialiser
-#line 77 "./knapsack.ez"
+#line 78 "./knapsack.ez"
 
-    std::cout << "initializer called..." << std::endl;
     // Populate list of items
     for (int i = 0; i < MAX_ITEMS; ++i) {
         Item *item = new Item;
@@ -131,7 +131,7 @@ CIndividual* IndividualImpl::clone(){
 
 IndividualImpl::~IndividualImpl(){
   // Destructing pointers
-    for(int EASEA_Ndx=0; EASEA_Ndx<5000; EASEA_Ndx++)
+    for(int EASEA_Ndx=0; EASEA_Ndx<1000; EASEA_Ndx++)
       if(itemList[EASEA_Ndx]) delete itemList[EASEA_Ndx];
 
 }
@@ -203,9 +203,8 @@ float IndividualImpl::evaluate(){
         }
     }while(overweightFlag);
 
-    std::vector<int>().swap(temp); // clear allocated memory
-    // std::cout << "fitness --> " << fitness;
-    // std::cout << totalWeight << " <-- weight" << std::endl;
+    //    std::vector<int>().swap(temp); // clear allocated memory
+    //    std::cout << "fitness --> " << fitness << "\t" << totalWeight << " <-- weight" << std::endl;
     return fitness =  fitness;
 
   }
@@ -220,7 +219,7 @@ void IndividualImpl::boundChecking(){
 string IndividualImpl::serialize(){
     ostringstream EASEA_Line(ios_base::app);
     // Memberwise serialization
-	for(int EASEA_Ndx=0; EASEA_Ndx<5000; EASEA_Ndx++){
+	for(int EASEA_Ndx=0; EASEA_Ndx<1000; EASEA_Ndx++){
 		if(this->itemList[EASEA_Ndx] != NULL){
 			EASEA_Line << "\a ";
 			EASEA_Line << this->itemList[EASEA_Ndx]->serializer() << " ";
@@ -228,7 +227,7 @@ string IndividualImpl::serialize(){
 		else
 			EASEA_Line << "NULL" << " ";
 }
-	for(int EASEA_Ndx=0; EASEA_Ndx<5000; EASEA_Ndx++)
+	for(int EASEA_Ndx=0; EASEA_Ndx<1000; EASEA_Ndx++)
 		EASEA_Line << this->x[EASEA_Ndx] <<" ";
 
     EASEA_Line << this->fitness;
@@ -240,13 +239,13 @@ void IndividualImpl::deserialize(string Line){
     string line;
     // Memberwise deserialization
 	EASEA_Line >> line;
-	for(int EASEA_Ndx=0; EASEA_Ndx<5000; EASEA_Ndx++){
+	for(int EASEA_Ndx=0; EASEA_Ndx<1000; EASEA_Ndx++){
 		if(strcmp(line.c_str(),"NULL")==0)
 			this->itemList[EASEA_Ndx] = NULL;
 		else{
 			this->itemList[EASEA_Ndx] = new Item;
 			this->itemList[EASEA_Ndx]->deserializer(&EASEA_Line);
-		}	}	for(int EASEA_Ndx=0; EASEA_Ndx<5000; EASEA_Ndx++)
+		}	}	for(int EASEA_Ndx=0; EASEA_Ndx<1000; EASEA_Ndx++)
 		EASEA_Line >> this->x[EASEA_Ndx];
 
     EASEA_Line >> this->fitness;
@@ -259,10 +258,10 @@ IndividualImpl::IndividualImpl(const IndividualImpl& genome){
   // ********************
   // Problem specific part
   // Memberwise copy
-    for(int EASEA_Ndx=0; EASEA_Ndx<5000; EASEA_Ndx++)
+    for(int EASEA_Ndx=0; EASEA_Ndx<1000; EASEA_Ndx++)
       if(genome.itemList[EASEA_Ndx]) itemList[EASEA_Ndx] = new Item(*(genome.itemList[EASEA_Ndx]));
       else itemList[EASEA_Ndx] = NULL;
-    {for(int EASEA_Ndx=0; EASEA_Ndx<5000; EASEA_Ndx++)
+    {for(int EASEA_Ndx=0; EASEA_Ndx<1000; EASEA_Ndx++)
        x[EASEA_Ndx]=genome.x[EASEA_Ndx];}
 
 
@@ -346,18 +345,18 @@ unsigned IndividualImpl::mutate( float pMutationPerGene ){
 void ParametersImpl::setDefaultParameters(int argc, char** argv){
 
 	this->minimizing = false;
-	this->nbGen = setVariable("nbGen",(int)300);
+	this->nbGen = setVariable("nbGen",(int)200);
 
 	seed = setVariable("seed",(int)time(0));
 	globalRandomGenerator = new CRandomGenerator(seed);
 	this->randomGenerator = globalRandomGenerator;
 
 
-	selectionOperator = getSelectionOperator(setVariable("selectionOperator","Roulette"), this->minimizing, globalRandomGenerator);
+	selectionOperator = getSelectionOperator(setVariable("selectionOperator","Tournament"), this->minimizing, globalRandomGenerator);
 	replacementOperator = getSelectionOperator(setVariable("reduceFinalOperator","Tournament"),this->minimizing, globalRandomGenerator);
 	parentReductionOperator = getSelectionOperator(setVariable("reduceParentsOperator","Tournament"),this->minimizing, globalRandomGenerator);
 	offspringReductionOperator = getSelectionOperator(setVariable("reduceOffspringOperator","Tournament"),this->minimizing, globalRandomGenerator);
-	selectionPressure = setVariable("selectionPressure",(float)0.000000);
+	selectionPressure = setVariable("selectionPressure",(float)2.000000);
 	replacementPressure = setVariable("reduceFinalPressure",(float)2.000000);
 	parentReductionPressure = setVariable("reduceParentsPressure",(float)2.000000);
 	offspringReductionPressure = setVariable("reduceOffspringPressure",(float)2.000000);
@@ -365,8 +364,8 @@ void ParametersImpl::setDefaultParameters(int argc, char** argv){
 	pMutation = 0.100000;
 	pMutationPerGene = 0.05;
 
-	parentPopulationSize = setVariable("popSize",(int)20);
-	offspringPopulationSize = setVariable("nbOffspring",(int)10);
+	parentPopulationSize = setVariable("popSize",(int)50);
+	offspringPopulationSize = setVariable("nbOffspring",(int)25);
 
 
 	parentReductionSize = setReductionSizes(parentPopulationSize, setVariable("survivingParents",(float)1.000000));
@@ -405,9 +404,9 @@ void ParametersImpl::setDefaultParameters(int argc, char** argv){
 	if(parentReductionSize<parentPopulationSize) parentReduction = true;
 	else parentReduction = false;
 
-	generationalCriterion = new CGenerationalCriterion(setVariable("nbGen",(int)300));
+	generationalCriterion = new CGenerationalCriterion(setVariable("nbGen",(int)200));
 	controlCStopingCriterion = new CControlCStopingCriterion();
-	timeCriterion = new CTimeCriterion(setVariable("timeLimit",0));
+	timeCriterion = new CTimeCriterion(setVariable("timeLimit",10));
 
 	this->optimise = 0;
 
@@ -424,12 +423,12 @@ void ParametersImpl::setDefaultParameters(int argc, char** argv){
 	this->outputFilename = (char*)"knapsack";
 	this->plotOutputFilename = (char*)"knapsack.png";
 
-	this->remoteIslandModel = setVariable("remoteIslandModel",0);
+	this->remoteIslandModel = setVariable("remoteIslandModel",1);
 	std::string* ipFilename=new std::string();
 	*ipFilename=setVariable("ipFile","ip.txt");
 
 	this->ipFile =(char*)ipFilename->c_str();
-	this->migrationProbability = setVariable("migrationProbability",(float)0.300000);
+	this->migrationProbability = setVariable("migrationProbability",(float)1.000000);
     this->serverPort = setVariable("serverPort",2929);
 }
 
@@ -437,7 +436,7 @@ CEvolutionaryAlgorithm* ParametersImpl::newEvolutionaryAlgorithm(){
 
 	pEZ_MUT_PROB = &pMutationPerGene;
 	pEZ_XOVER_PROB = &pCrossover;
-	//EZ_NB_GEN = (unsigned*)setVariable("nbGen",300);
+	//EZ_NB_GEN = (unsigned*)setVariable("nbGen",200);
 	EZ_current_generation=0;
   EZ_POP_SIZE = parentPopulationSize;
   OFFSPRING_SIZE = offspringPopulationSize;

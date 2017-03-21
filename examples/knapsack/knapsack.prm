@@ -8,20 +8,20 @@
 # --seed=0   # -S : Random number seed. It is possible to give a specific seed.
 
 ######    Evolution Engine    ######
---popSize=20 # -P : Population Size
---nbOffspring=10 # -O : Nb of offspring (percentage or absolute)
+--popSize=50 # -P : Population Size
+--nbOffspring=25 # -O : Nb of offspring (percentage or absolute)
 
 ######	  Stopping Criterions    #####
---nbGen=300 #Nb of generations
---timeLimit=0 # Time Limit: desactivate with (0) (in Seconds)
+--nbGen=200 #Nb of generations
+--timeLimit=10 # Time Limit: desactivate with (0) (in Seconds)
 
 ######    Evolution Engine / Replacement    ######
 --elite=2  # Nb of elite parents (absolute)
 --eliteType=1 # Strong (1) or weak (0) elitism (set elite to 0 for none)
 --survivingParents=1.000000 # Nb of surviving parents (percentage or absolute)
 --survivingOffspring=1.000000  # Nb of surviving offspring (percentage or absolute)
---selectionOperator=Roulette # Selector: Deterministic, Tournament, Random, Roulette 
---selectionPressure=0.000000
+--selectionOperator=Tournament # Selector: Deterministic, Tournament, Random, Roulette 
+--selectionPressure=2.000000
 --reduceParentsOperator=Tournament 
 --reduceParentsPressure=2.000000
 --reduceOffspringOperator=Tournament 
@@ -43,9 +43,9 @@
 --startFromFile=0 #start optimisation from knapsack.pop file
 
 #### Remote Island Model ####
---remoteIslandModel=0 #To initialize communications with remote EASEA's
+--remoteIslandModel=1 #To initialize communications with remote EASEA's
 --ipFile=ip.txt
---migrationProbability=0.300000 #Probability to send an individual every generation
+--migrationProbability=1.000000 #Probability to send an individual every generation
 --serverPort=2929
 
 # That's all folks ! 

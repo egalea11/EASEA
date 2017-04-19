@@ -33,3 +33,16 @@
 *.ptx
 *.cubin
 *.fatbin
+
+# knapsack.ez related files
+ip.txt
+knapsack.cpp
+knapsack
+knapsack.mak
+knapsack.o
+knapsack.plot
+knapsack.csv
+knapsack.prm
+knapsackindividual.cpp
+knapsackindividual.hpp
+knapsackindividual.o

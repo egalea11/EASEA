@@ -38,6 +38,11 @@ void * CComUDPServer::UDP_server_thread(void *parm) {
   char buffer[MAXINDSIZE];
   int recvMsgSize;
 
+  // sleep migration scheme
+  usleep(30000000);  //wait 30 seconds to receive individuals
+  std::cout<<"\n\n\t\tok!\n"<<endl;
+  // ---------------------
+
   for(;;) {/*forever loop*/
     /*receive UDP datagrams from client*/
     if ((recvMsgSize = recvfrom(p->Socket,buffer,MAXINDSIZE,0,(struct sockaddr *)&cliaddr,&len)) < 0) {

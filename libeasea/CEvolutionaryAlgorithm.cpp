@@ -389,7 +389,7 @@ void CEvolutionaryAlgorithm::showPopulationStats(struct timeval beginTime){
     if(currentGeneration==0)
       printf("GEN\tTIME\t\tEVAL\t\tBEST      AVG       STDDEV    WORST\n\n");
 #ifdef WIN32
-    printf("%u\t%2.6f\t%u\t%.2e\t%.2e\t%.2e\t%.2e\n",currentGeneration,duration,population->currentEvaluationNb,population->Best->getFitness(),this->cstats->currentAverageFitness,this->cstats->currentStdDev, population->Worst->getFitness());
+    printf("%u\t%2.6f\t%u\t%.2e\t%.2e\t%.2e\t%.2e\n",currentGeneration,duration,population->currentEvaluationNb,population->Best->getFitness(),this->cstats->currentAverageFitness,this->cstats->currentStdDev, population->Worst->getFitness());"%d,%ld.%d,%d,%d,%.2f,%.3f,%d\n",
 #else
       //printf("%d\t%ld.%01ld\t%d\t%.2e\t%.2e\t%.2e\t%.2e\n",(int)currentGeneration,res.tv_sec,res.tv_usec,(int)population->currentEvaluationNb,population->Best->getFitness(),currentAverageFitness,currentSTDEV, population->Worst->getFitness());
       printf("%d\t%ld.%d\t\t%d\t\t%d  %.2f  %.3f  %d\n",(int)currentGeneration,res.tv_sec,(int)res.tv_usec/10000,(int)population->currentEvaluationNb,(int)population->Best->getFitness(),this->cstats->currentAverageFitness,this->cstats->currentStdDev, (int)population->Worst->getFitness());

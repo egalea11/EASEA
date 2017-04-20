@@ -88,9 +88,9 @@ however, only the first round is the most demanding since the evolution function
 
 \At the beginning of each generation function:
     if(!waited){
-        std::cout<<"Waiting 60 seconds..."<<endl;
-        unsigned int microseconds = 60000000;
-        usleep(microseconds);
+        //std::cout<<"Waiting 60 seconds..."<<endl;
+        //unsigned int microseconds = 60000000;
+        //usleep(microseconds);
         waited = true;
     }
 \end

@@ -24,7 +24,9 @@ the knapsack being overweight.
 Individuals are modified such as to accommodate the knapsack weight limit by
 removing an item one by one from the individual, and checking for fitness each time.
 
-This results in the fitness function having a time complexity of TODO calculate time complexity
+This results in the fitness function having a time complexity of O(p*n)
+- where p is the population size
+- and n is the number of items
 however, only the first round is the most demanding since the evolution functions modify
 (nearly) each individual only a bit.
 
@@ -33,8 +35,9 @@ however, only the first round is the most demanding since the evolution function
 \User declarations:
     #include <vector>
     #include <sstream>
+    #include <unistd.h>
 
-    #define MAX_ITEMS 100
+    #define MAX_ITEMS 1000
 
     #define CROSSOVER_PROB 0.85
     #define MUTATION_PROB 0.10
@@ -46,6 +49,7 @@ however, only the first round is the most demanding since the evolution function
     #define MAX_WEIGHT_PER_ITEM 20
 
     bool itemListGenerationSwitch = false;
+    bool waited = false;
 
     // user variables
     int MAX_KNAPSACK_WEIGHT;
@@ -80,6 +84,15 @@ however, only the first round is the most demanding since the evolution function
 
 \After everything else function:
 
+\end
+
+\At the beginning of each generation function:
+    if(!waited){
+        std::cout<<"Waiting 60 seconds..."<<endl;
+        unsigned int microseconds = 60000000;
+        usleep(microseconds);
+        waited = true;
+    }
 \end
 
 \GenomeClass::initializer:
@@ -143,7 +156,6 @@ however, only the first round is the most demanding since the evolution function
              cout << "unable to open file";
          }
     }
-
 \end
 
 
@@ -245,7 +257,7 @@ however, only the first round is the most demanding since the evolution function
   Print stats: true				// terminal print
   Generate csv stats file: true
   Generate gnuplot script: false
-  Plot stats: false				// java grapher
+  Plot stats: true				// java grapher
 
   Remote island model: true
   IP file: ip.txt 			// File containing all the remote island's IP

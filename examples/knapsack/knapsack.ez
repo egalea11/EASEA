@@ -37,7 +37,7 @@ however, only the first round is the most demanding since the evolution function
     #include <sstream>
     #include <unistd.h>
 
-    #define MAX_ITEMS 1000
+    #define MAX_ITEMS 100
 
     #define CROSSOVER_PROB 0.85
     #define MUTATION_PROB 0.10

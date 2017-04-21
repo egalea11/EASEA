@@ -36,6 +36,9 @@ however, only the first round is the most demanding since the evolution function
     #include <vector>
     #include <sstream>
     #include <unistd.h>
+    #include <iostream>
+    #include <fstream>
+    #include <string>
 
     #define MAX_ITEMS 100
 
@@ -50,6 +53,7 @@ however, only the first round is the most demanding since the evolution function
 
     bool itemListGenerationSwitch = false;
     bool waited = false;
+    int init_itemListLine = 0;
 
     // user variables
     int MAX_KNAPSACK_WEIGHT;
@@ -101,6 +105,7 @@ however, only the first round is the most demanding since the evolution function
         Genome.x[i] = random(0,1);
     }
 
+    // for first iteration...
     if(!itemListGenerationSwitch){
         if(WRITE_ITEMLIST == 1){
         // generate random list of items
@@ -128,8 +133,8 @@ however, only the first round is the most demanding since the evolution function
             if(myfile_read.is_open()){
                  while(myfile_read >> value >> weight){
                      Item *item = new Item;
-                     item->value = random(MIN_VALUE_PER_ITEM, MAX_VALUE_PER_ITEM);
-                     item->weight = random(MIN_WEIGHT_PER_ITEM, MAX_WEIGHT_PER_ITEM);
+                     item->value = value;displ
+                     item->weight = weight;
                      Genome.itemList[count] = item;
                      count++;
                  }
@@ -140,14 +145,15 @@ however, only the first round is the most demanding since the evolution function
         }
         itemListGenerationSwitch = true;
     }else{
+    // for rest of genomes...
         int value, weight;
         int count = 0;
         std::ifstream myfile_read("itemlist.dat");
         if(myfile_read.is_open()){
              while(myfile_read >> value >> weight){
                  Item *item = new Item;
-                 item->value = random(MIN_VALUE_PER_ITEM, MAX_VALUE_PER_ITEM);
-                 item->weight = random(MIN_WEIGHT_PER_ITEM, MAX_WEIGHT_PER_ITEM);
+                 item->value = value;
+                 item->weight = weight;
                  Genome.itemList[count] = item;
                  count++;
              }
@@ -156,6 +162,8 @@ however, only the first round is the most demanding since the evolution function
              cout << "unable to open file";
          }
     }
+
+
 \end
 
 

@@ -133,7 +133,7 @@ however, only the first round is the most demanding since the evolution function
             if(myfile_read.is_open()){
                  while(myfile_read >> value >> weight){
                      Item *item = new Item;
-                     item->value = value;displ
+                     item->value = value;
                      item->weight = weight;
                      Genome.itemList[count] = item;
                      count++;

@@ -47,7 +47,7 @@ however, only the first round is the most demanding since the evolution function
 
     // MIN/MAX bounds for item creation
     #define MIN_VALUE_PER_ITEM 1
-    #define MAX_VALUE_PER_ITEM 20
+        #define MAX_VALUE_PER_ITEM 20
     #define MIN_WEIGHT_PER_ITEM 1
     #define MAX_WEIGHT_PER_ITEM 20
 
@@ -269,8 +269,8 @@ however, only the first round is the most demanding since the evolution function
 
   Remote island model: true
   IP file: ip.txt 			// File containing all the remote island's IP
-  Server port : 2002
-  Migration probability: 0.8
+  Server port : 2006
+  Migration probability: 0.666
 
   Save population: false
   Start from file: false

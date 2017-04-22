@@ -40,7 +40,7 @@ however, only the first round is the most demanding since the evolution function
     #include <fstream>
     #include <string>
 
-    #define MAX_ITEMS 100
+    #define MAX_ITEMS 10000
 
     #define CROSSOVER_PROB 0.85
     #define MUTATION_PROB 0.10

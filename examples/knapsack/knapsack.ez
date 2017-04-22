@@ -53,7 +53,8 @@ however, only the first round is the most demanding since the evolution function
 
     bool itemListGenerationSwitch = false;
     bool waited = false;
-    int init_itemListLine = 0;
+
+    int itemsValueWeight[MAX_ITEMS][2];      // 2D array for storing itemlist into memory (not genome)
 
     // user variables
     int MAX_KNAPSACK_WEIGHT;
@@ -68,16 +69,9 @@ however, only the first round is the most demanding since the evolution function
 
 
 \User classes:
-    Item{
-        int value;
-        int weight;
-    }
     GenomeClass{
         int x[MAX_ITEMS];
-        Item *itemList[MAX_ITEMS];
     }
-
-
 \end
 
 \Before everything else function:
@@ -110,17 +104,16 @@ however, only the first round is the most demanding since the evolution function
         if(WRITE_ITEMLIST == 1){
         // generate random list of items
             for (int i = 0; i < MAX_ITEMS; ++i) {
-                Item *item = new Item;
-                item->value = random(MIN_VALUE_PER_ITEM, MAX_VALUE_PER_ITEM);
-                item->weight = random(MIN_WEIGHT_PER_ITEM, MAX_WEIGHT_PER_ITEM);
-                Genome.itemList[i] = item;
+                itemsValueWeight[i][0] = random(MIN_VALUE_PER_ITEM, MAX_VALUE_PER_ITEM);
+                itemsValueWeight[i][1] = random(MIN_WEIGHT_PER_ITEM, MAX_WEIGHT_PER_ITEM);
             }
             // Write item list to file
             std::ofstream file ("itemlist.dat");
             if(file.is_open()){
                 int count = 0;
                 for(int i = 0; i < MAX_ITEMS; i++){
-                    file << Genome.itemList[i]->value << " " << Genome.itemList[i]->weight <<"\n";
+                    file << itemsValueWeight[i][0]<< " " << itemsValueWeight[i][1]<<"\n";
+                    // cout << count << ": value " << itemsValueWeight[count][0] << "\tweight " << itemsValueWeight[count][1] << endl;
                     count++;
                 }
                 file.close();
@@ -132,10 +125,9 @@ however, only the first round is the most demanding since the evolution function
             std::ifstream myfile_read("itemlist.dat");
             if(myfile_read.is_open()){
                  while(myfile_read >> value >> weight){
-                     Item *item = new Item;
-                     item->value = value;
-                     item->weight = weight;
-                     Genome.itemList[count] = item;
+                     itemsValueWeight[count][0] = value;
+                     itemsValueWeight[count][1] = weight;
+                     // cout << count << ": value " << itemsValueWeight[count][0] << "\tweight " << itemsValueWeight[count][1] << endl;
                      count++;
                  }
                  myfile_read.close();
@@ -144,26 +136,7 @@ however, only the first round is the most demanding since the evolution function
              }
         }
         itemListGenerationSwitch = true;
-    }else{
-    // for rest of genomes...
-        int value, weight;
-        int count = 0;
-        std::ifstream myfile_read("itemlist.dat");
-        if(myfile_read.is_open()){
-             while(myfile_read >> value >> weight){
-                 Item *item = new Item;
-                 item->value = value;
-                 item->weight = weight;
-                 Genome.itemList[count] = item;
-                 count++;
-             }
-             myfile_read.close();
-         }else{
-             cout << "unable to open file";
-         }
     }
-
-
 \end
 
 
@@ -203,8 +176,8 @@ however, only the first round is the most demanding since the evolution function
             // if item selected in individual
             if(Genome.x[i] == 1){
                 // add value and weight to total
-                totalValue += Genome.itemList[i]->value;
-                totalWeight += Genome.itemList[i]->weight;
+                totalValue += itemsValueWeight[i][0];
+                totalWeight += itemsValueWeight[i][1];
                 temp.push_back(i);
                 if(totalWeight > MAX_KNAPSACK_WEIGHT){
                     overweightFlag = true;
@@ -246,7 +219,7 @@ however, only the first round is the most demanding since the evolution function
 
 \Default run parameters:
 
-  Number of generations : 1000000
+  Number of generations : 100000
   Time limit: 0
   Population size : 200			// number of chromosomes
   Offspring size : 200

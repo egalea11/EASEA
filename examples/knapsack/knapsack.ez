@@ -219,10 +219,10 @@ however, only the first round is the most demanding since the evolution function
 
 \Default run parameters:
 
-  Number of generations : 50000
+  Number of generations : 20000
   Time limit: 0
-  Population size : 200			// number of chromosomes
-  Offspring size : 200
+  Population size : 100			// number of chromosomes
+  Offspring size : 100
   Mutation probability : 0.10       // MUT_PROB
   Crossover probability : 0.85      // XOVER_PROB
   Evaluator goal : maximise      // Maximise
@@ -243,7 +243,7 @@ however, only the first round is the most demanding since the evolution function
   Remote island model: true
   IP file: ip.txt 			// File containing all the remote island's IP
   Server port : 2002
-  Migration probability: 1
+  Migration probability: 0.8
 
   Save population: false
   Start from file: false

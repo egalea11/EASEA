@@ -40,7 +40,7 @@ however, only the first round is the most demanding since the evolution function
     #include <fstream>
     #include <string>
 
-    #define MAX_ITEMS 500
+    #define MAX_ITEMS 100
 
     #define CROSSOVER_PROB 0.85
     #define MUTATION_PROB 0.10
@@ -62,11 +62,6 @@ however, only the first round is the most demanding since the evolution function
 
 \end
 
-\User functions:
-
-\end
-
-
 
 \User classes:
     GenomeClass{
@@ -77,11 +72,6 @@ however, only the first round is the most demanding since the evolution function
 \Before everything else function:
     MAX_KNAPSACK_WEIGHT = setVariable("u4", 50);    // default knapsack max size = 50
     WRITE_ITEMLIST = setVariable("u5", 0);      // default = read from file
-
-\end
-
-\After everything else function:
-
 \end
 
 \At the beginning of each generation function:
@@ -211,18 +201,12 @@ however, only the first round is the most demanding since the evolution function
     return fitness;
 \end
 
-
-
-\GenomeClass::display:
-\ends
-
-
 \Default run parameters:
 
   Number of generations : 20000
   Time limit: 0
-  Population size : 100			// number of chromosomes
-  Offspring size : 100
+  Population size : 200			// number of chromosomes
+  Offspring size : 200
   Mutation probability : 0.10       // MUT_PROB
   Crossover probability : 0.85      // XOVER_PROB
   Evaluator goal : maximise      // Maximise

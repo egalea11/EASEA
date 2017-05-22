@@ -40,7 +40,7 @@ however, only the first round is the most demanding since the evolution function
     #include <fstream>
     #include <string>
 
-    #define MAX_ITEMS 100
+    #define MAX_ITEMS 500
 
     #define CROSSOVER_PROB 0.85
     #define MUTATION_PROB 0.10
@@ -54,7 +54,7 @@ however, only the first round is the most demanding since the evolution function
     bool itemListGenerationSwitch = false;
     bool waited = false;
 
-    int itemsValueWeight[MAX_ITEMS][2];      // 2D array for storing itemlist into memory (not genome)
+    int itemsValueWeight[MAX_ITEMS][2];      // 2D array for storing itemlist into memory
 
     // user variables
     int MAX_KNAPSACK_WEIGHT;
@@ -75,12 +75,13 @@ however, only the first round is the most demanding since the evolution function
 \end
 
 \At the beginning of each generation function:
-    if(!waited){
-        //std::cout<<"Waiting 60 seconds..."<<endl;
-        //unsigned int microseconds = 60000000;
+    // unused wait function
+    //if(!waited){
+        //std::cout<<"Waiting 30 seconds..."<<endl;
+        //unsigned int microseconds = 30000000;
         //usleep(microseconds);
-        waited = true;
-    }
+        //waited = true;
+    //}
 \end
 
 \GenomeClass::initializer:
@@ -133,7 +134,7 @@ however, only the first round is the most demanding since the evolution function
 \GenomeClass::crossover:
   for (int i=0; i<MAX_ITEMS; i++)
   {
-    float alpha = (float)random(0.,1.);     // barycentric crossover
+    float alpha = (float)random(0.,1.);             // barycentric crossover
      child.x[i] = alpha*parent1.x[i] + (1.-alpha)*parent2.x[i];
   }
 \end
@@ -202,34 +203,32 @@ however, only the first round is the most demanding since the evolution function
 \end
 
 \Default run parameters:
-
   Number of generations : 20000
   Time limit: 0
-  Population size : 200			// number of chromosomes
-  Offspring size : 200
-  Mutation probability : 0.10       // MUT_PROB
-  Crossover probability : 0.85      // XOVER_PROB
-  Evaluator goal : maximise      // Maximise
+  Population size : 100			            // number of chromosomes
+  Offspring size : 100
+  Mutation probability : 0.10               // MUT_PROB
+  Crossover probability : 0.85              // XOVER_PROB
+  Evaluator goal : maximise                 // Maximise
   Selection operator: Roulette
-  Surviving parents: 1          //percentage or absolute
+  Surviving parents: 1                      // percentage or absolute
   Surviving offspring: 100%
   Reduce parents operator: Roulette
   Reduce offspring operator: Roulette
   Final reduce operator: Roulette
 
-  Elitism: Weak			//Weak or Strong
+  Elitism: Weak			                    // Weak or Strong
   Elite: 3
-  Print stats: true				// terminal print
+  Print stats: true				            // terminal print
   Generate csv stats file: true
   Generate gnuplot script: false
-  Plot stats: true				// java grapher
+  Plot stats: true				            // java grapher
 
   Remote island model: true
-  IP file: ip.txt 			// File containing all the remote island's IP
+  IP file: ip.txt 			                // File containing all the remote island's IP
   Server port : 2002
   Migration probability: 0.8
 
   Save population: false
   Start from file: false
-
 \end

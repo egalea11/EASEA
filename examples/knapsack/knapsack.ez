@@ -69,7 +69,7 @@ however, only the first round is the most demanding since the evolution function
 
 \Before everything else function:
     MAX_KNAPSACK_WEIGHT = setVariable("u4", 50);    // default knapsack max size = 50
-    WRITE_ITEMLIST = setVariable("u5", 0);      // default = read from file
+    WRITE_ITEMLIST = setVariable("u5", 1);      // default = write new itemlist
 \end
 
 \At the beginning of each generation function:
@@ -201,10 +201,10 @@ however, only the first round is the most demanding since the evolution function
 \end
 
 \Default run parameters:
-  Number of generations : 100000
+  Number of generations : 100
   Time limit: 0
-  Population size : 500			            // number of chromosomes
-  Offspring size : 500
+  Population size : 200			            // number of chromosomes
+  Offspring size : 200
   Mutation probability : 0.10               // MUT_PROB
   Crossover probability : 0.85              // XOVER_PROB
   Evaluator goal : maximise                 // Maximise
